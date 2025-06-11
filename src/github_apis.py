@@ -1,7 +1,14 @@
+import os
+
 import requests
 
 
+GITHUB_PAT = os.environ.get("GITHUB_PAT")
+
 requests_session = requests.Session()
+requests_session.headers.update({
+    "Authorization": f"Bearer {GITHUB_PAT}",
+})
 
 
 def get_repo_language_distribution(repo_languages_url):
@@ -32,7 +39,7 @@ def get_repo_metadata(repo_endpoint):
     
     return response_data
 
-def get_contributions(contributors_url, steps=[5, 10, 20, 30, 40, 50, 75, 100]):
+def get_contributions(contributors_url, steps=[5, 10, 15, 20, 25, 30, 35, 40, 50, 75, 100]):
     response = requests_session.get(contributors_url + "?per_page=100")
     response_data = response.json()
 
